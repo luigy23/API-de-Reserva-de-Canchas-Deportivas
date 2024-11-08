@@ -5,7 +5,7 @@ const router = express.Router();
 import { login } from '../controller/auth.controller.js';
 import { traerCanchas, crearCancha, actualizarCancha, eliminarCancha } from '../controller/cancha.controller.js';
 import { traerReservas, crearReserva, actualizarReserva, eliminarReserva } from '../controller/reserva.controller.js';
-import { protect } from '../middleware/authMiddleware.js'; //protect es un middleware que se encarga de verificar si el usuario esta autenticado
+//import { protect } from '../middleware/authMiddleware.js'; //protect es un middleware que se encarga de verificar si el usuario esta autenticado
 
 router.get('/', (req, res) => {
     res.send('Hola Mundo');
