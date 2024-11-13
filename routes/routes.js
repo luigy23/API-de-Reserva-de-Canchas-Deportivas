@@ -1,4 +1,5 @@
 import express from 'express';
+import Reserva from '../models/Reserva.js';
 
 const router = express.Router();
 
@@ -26,7 +27,17 @@ router.post('/reservas', crearReserva);
 router.put('/reservas/:id', actualizarReserva);
 router.delete('/reservas/:id', eliminarReserva);
 
-
+router.get('/reservas/user', protect, async (req, res) => {
+  try {
+    const reservas = await Reserva.find({ usuario: req.user.id })
+      .populate('cancha')
+      .sort({ fecha: -1 });
+    res.json(reservas);
+  } catch (error) {
+    console.error('Error fetching reservations:', error);
+    res.status(500).json({ message: 'Error al obtener las reservas' });
+  }
+});
 
 
 // Authentication
