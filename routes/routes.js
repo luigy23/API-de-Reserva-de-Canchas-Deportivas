@@ -2,10 +2,10 @@ import express from 'express';
 
 const router = express.Router();
 
-import { login } from '../controller/auth.controller.js';
+import { login, register } from '../controller/auth.controller.js';
 import { traerCanchas, crearCancha, actualizarCancha, eliminarCancha } from '../controller/cancha.controller.js';
 import { traerReservas, crearReserva, actualizarReserva, eliminarReserva } from '../controller/reserva.controller.js';
-//import { protect } from '../middleware/authMiddleware.js'; //protect es un middleware que se encarga de verificar si el usuario esta autenticado
+import { protect, adminOnly } from '../middleware/authMiddleware.js'; //protect es un middleware que se encarga de verificar si el usuario esta autenticado
 
 router.get('/', (req, res) => {
     res.send('Hola Mundo');
@@ -15,9 +15,9 @@ router.get('/', (req, res) => {
 
 //Canchas
 router.get('/canchas', traerCanchas);
-router.post('/canchas', crearCancha);
-router.put('/canchas/:id', actualizarCancha);
-router.delete('/canchas/:id', eliminarCancha);
+router.post('/canchas', protect, adminOnly, crearCancha);
+router.put('/canchas/:id', protect, adminOnly, actualizarCancha);
+router.delete('/canchas/:id', protect, adminOnly, eliminarCancha);
 
 
 // Reservas
@@ -30,6 +30,7 @@ router.delete('/reservas/:id', eliminarReserva);
 
 
 // Authentication
+router.post('/register', register);
 router.post('/login', login);
 
 
