@@ -17,7 +17,16 @@ const crearReserva = async (req, res) => {
         return res.status(400).json({ message: 'Faltan datos' });
     }
     try {
-        const reserva = new Reserva({ fecha, hora, usuario, cancha });
+        // Asegurar que la fecha se guarde correctamente
+        const fechaReserva = new Date(fecha);
+        fechaReserva.setUTCHours(12); // Establecer hora UTC fija para evitar problemas de zona horaria
+        
+        const reserva = new Reserva({ 
+            fecha: fechaReserva,
+            hora, 
+            usuario, 
+            cancha 
+        });
         await reserva.save();
         res.json(reserva);
     } catch (error) {
